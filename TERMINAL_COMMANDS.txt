@@ -1,0 +1,22 @@
+// dotnet
+>dotnet new angular
+>dotnet run
+>dotnet add package <PackageName> then >dotnet restore
+>dotnet restore
+>dotnet watch run
+
+// EntityFramework
+>dotnet ef migrations add <Description>
+>dotnet ef migrations remove
+>dotnet ef database update
+>dotnet ef --help
+
+
+// angular cli
+>ng g c <component_name>
+>ng g c <component_name> -module app.shared.module
+>ng g s <service_name>
+
+
+// npm
+>npm install
