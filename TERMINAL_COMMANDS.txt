@@ -20,3 +20,11 @@
 
 // npm
 >npm install
+
+
+==========================================================================================
+Create migration from Package Manager Console:
+PM> Add-Migration MigrationName -Context ProjectPlanDbContext -OutputDir Data\Migrations
+
+PM> Update-Database -Context VegaDbContext
+PM> Remove Migration
