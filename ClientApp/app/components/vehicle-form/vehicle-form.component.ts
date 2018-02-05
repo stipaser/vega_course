@@ -1,5 +1,8 @@
 import { VehicleService } from './../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastyService } from 'ng2-toasty';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-vehicle-form',
@@ -8,13 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehicleFormComponent implements OnInit {
   makes: any[];
-  vehicle: any = {};
   models: any[];
   features: any[];
+  vehicle: any = { 
+    features:[],
+    contact: {} 
+  };
+  id: string;
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehicleService: VehicleService,
+    private toastyService: ToastyService) {
+
+      route.params.subscribe (p => {
+        this.vehicle.id = p['id'];
+      });
+     }
 
   ngOnInit() {
+    
+    console.log(this.id);
+        
+    this.vehicleService.getVehicle(+this.vehicle.id)
+      .subscribe(res => {
+          this.vehicle = res;
+          
+      },
+      err => {
+        //if(err.status == 404)
+          // this.router.navigate(['/home'])
+      });
+
     this.vehicleService.getMakes()
       .subscribe(makes => {
         this.makes = makes;
@@ -27,8 +56,27 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vehicle.make)
+    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId)
     this.models = selectedMake ? selectedMake.models : [];
+    delete this.vehicle.modelId;
+  }
+
+  OnFeatureToggle(featureId:number, $event:any){
+    if($event.target.checked){
+      this.vehicle.features.push(featureId);
+    }
+    else {
+      var index = this.vehicle.features.indexOf(featureId);
+      this.vehicle.features.splice(index, 1);
+    }
+  }
+
+  submit(){
+    this.vehicleService.createVehicle(this.vehicle)
+      .subscribe(res => {
+        console.log(res);
+        this.router.navigate(['/home']);
+      });
   }
 
 }

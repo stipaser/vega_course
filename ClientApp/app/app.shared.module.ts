@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ToastyModule } from 'ng2-toasty';
 
 // components
 import { AppComponent } from './components/app/app.component';
@@ -16,6 +17,21 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 // services
 import { VehicleService } from './services/vehicle.service';
 
+// Error
+// import { AppErrorHandler } from './components/app/app.error-handler';
+// import { ErrorHandler } from '@angular/core';
+
+const appRoutes: Routes = [
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'vehicles/new', component: VehicleFormComponent },
+    { path: 'vehicles/:id', component: VehicleFormComponent },
+    { path: 'home', component: HomeComponent },
+    { path: 'counter', component: CounterComponent },
+    { path: 'fetch-data', component: FetchDataComponent },
+    { path: '**', redirectTo: 'home' }
+];
+
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -26,20 +42,15 @@ import { VehicleService } from './services/vehicle.service';
         VehicleFormComponent
     ],
     imports: [
+        ToastyModule.forRoot(),
         CommonModule,
         HttpModule,
         FormsModule,
-        RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'vehicles/new', component: VehicleFormComponent },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: '**', redirectTo: 'home' }
-        ])
+        RouterModule.forRoot(appRoutes)
     ], 
     providers: [
-        VehicleService                
+        VehicleService,
+        //{ provide: ErrorHandler, useClass: AppErrorHandler }                
     ]
 })
 export class AppModuleShared {
