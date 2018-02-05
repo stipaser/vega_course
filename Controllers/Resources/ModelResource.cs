@@ -1,8 +1,6 @@
 namespace vega.Controllers.Resources
 {
-    public class ModelResource
+    public class ModelResource : KeyValuePairResource
     {
-        public int Id { get; set; }
-        public string Name { get; set; }              
     }
 }
