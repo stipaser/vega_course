@@ -7,6 +7,17 @@ export interface SaveVehicle {
     features: number[];
 }
 
+export interface Vehicle {
+    id: number, 
+    model: { id: number, name: string },
+    make: { id: number, name: string }, 
+    isRegistered: boolean, 
+    contact: Contact, 
+    lastUpdate: Date, 
+    vehicleFeatures: number[] 
+}
+
+
 export interface Contact {
     name: string;
     phone: string;

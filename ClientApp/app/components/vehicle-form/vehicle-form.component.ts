@@ -2,6 +2,7 @@ import { VehicleService } from './../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastyService } from 'ng2-toasty';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SaveVehicle, Vehicle } from '../../models/vehicle.model';
 
 
 @Component({
@@ -13,11 +14,14 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
   features: any[];
-  vehicle: any = { 
-    features:[],
-    contact: {} 
+  vehicle: SaveVehicle = { 
+    id: 0,
+    modelId: 0,
+    makeId: 0,
+    isRegistered: false,
+    contact: { name:'', phone: '', email: ''},
+    features: []
   };
-  id: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,12 +36,10 @@ export class VehicleFormComponent implements OnInit {
 
   ngOnInit() {
     
-    console.log(this.id);
-        
+      
     this.vehicleService.getVehicle(+this.vehicle.id)
       .subscribe(res => {
-          this.vehicle = res;
-          
+          this.populateVehicle(res);          
       },
       err => {
         //if(err.status == 404)
@@ -59,6 +61,20 @@ export class VehicleFormComponent implements OnInit {
     var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId)
     this.models = selectedMake ? selectedMake.models : [];
     delete this.vehicle.modelId;
+  }
+
+  populateModel(makeId:number){
+    var selectedMake = this.makes.find(m => m.id == makeId)
+    this.models = selectedMake ? selectedMake.models : [];
+  }
+
+  populateVehicle(veh: Vehicle){
+    this.vehicle.contact = veh.contact;
+    this.vehicle.id = veh.id;
+    this.vehicle.isRegistered = veh.isRegistered;
+    this.vehicle.makeId = veh.make.id;
+    this.models = (this.makes.find(m => m.id == veh.make.id)).models;
+    this.vehicle.modelId = veh.model.id;
   }
 
   OnFeatureToggle(featureId:number, $event:any){
