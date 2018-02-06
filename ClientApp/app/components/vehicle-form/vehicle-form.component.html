@@ -1,5 +1,5 @@
 <h2>New Vehicle</h2>
-<p>{{ vehicle | json }}</p>
+<!-- <p>{{ vehicle | json }}</p> -->
 <form #vehicleForm="ngForm" (ngSubmit)="submit()" novalidate>  
   <div class="form-group">
     <label for="make">Make</label>
@@ -47,5 +47,5 @@
     <input name="ContactEmail" id="ContactEmail" type="text" class="form-control" [(ngModel)]="vehicle.contact.email">
   </div>
   <button class="btn btn-primary" >Save</button>
-  <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="onDelete()" data-toggle="confirmation">Delete</button>
+  <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
 </form>

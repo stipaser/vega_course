@@ -117,7 +117,7 @@ export class VehicleFormComponent implements OnInit {
             showClose: true,
             timeout: 5000
           });
-          this.router.navigate(['/home']);
+          this.router.navigate(['/vehicles']);
         });
     }
   }
@@ -133,7 +133,7 @@ export class VehicleFormComponent implements OnInit {
           showClose: true,
           timeout: 5000
         });
-        this.router.navigate(['/home']);
+        this.router.navigate(['/vehicles']);
     });
   }
 

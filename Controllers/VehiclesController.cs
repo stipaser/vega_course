@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using vega.Controllers.Resources;
 using vega.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using vega.Core;
@@ -94,6 +95,19 @@ namespace vega.Controllers
             var vehicleResource = _mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(vehicleResource);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetVehicles()
+        {
+            var vehicles = await _vehicleRepository.GetVehicles();
+
+            if (vehicles == null)
+                return NotFound();
+
+            var vehiclesResource = _mapper.Map<IList<Vehicle>, IList<VehicleResource >>(vehicles);
+
+            return Ok(vehiclesResource);
         }
     }
 }
