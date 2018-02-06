@@ -11,9 +11,8 @@ export class VehicleListComponent implements OnInit {
 
   vehicles: Vehicle[];
   makes: any[];
-  filter: any = {};
-
-
+  query: any = {isSortAscending: false};
+  
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
@@ -25,7 +24,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   private initializeVehicles(){
-    this.vehicleService.getVehicles(this.filter)
+    this.vehicleService.getVehicles(this.query)
       .subscribe( res => {
         this.vehicles = res;       
       });
@@ -36,8 +35,15 @@ export class VehicleListComponent implements OnInit {
   }
 
   resetFilter(){
-    this.filter = {};
+    this.query = {};
     this.onFilterChange();
   }
 
+  sortBy(columnName: string){    
+    if(this.query.sortBy != columnName )
+        this.query.sortBy = columnName;     
+     
+    this.query.isSortAscending = !this.query.isSortAscending;
+    this.initializeVehicles();
+  }
 }

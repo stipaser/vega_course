@@ -6,7 +6,7 @@
 <div class="col-md-4 well">
   <div class="form-group">
     <label for="make">Filter by Make</label>
-    <select id="make" name="make" class="form-control" (change)="onFilterChange()" [(ngModel)]="filter.makeId">
+    <select id="make" name="make" class="form-control" (change)="onFilterChange()" [(ngModel)]="query.makeId">
       <option value=""></option>
       <option *ngFor="let make of makes" value="{{ make.id }}">{{ make.name }}</option>
     </select>
@@ -18,9 +18,27 @@
 <table class="table">
   <thead>
     <th>Id</th>
-    <th>Make</th>
-    <th>Model</th>
-    <th>Contact Name</th>
+    <th (click)="sortBy('make')">
+      Make
+      <i class="fa" *ngIf="query.sortBy=='make'" 
+      [class.fa-sort-asc]="query.isSortAscending"
+      [class.fa-sort-desc]="!query.isSortAscending"
+      ></i>
+    </th>
+    <th (click)="sortBy('model')">
+      Model
+      <i class="fa" *ngIf="query.sortBy=='model'" 
+      [class.fa-sort-asc]="query.isSortAscending"
+      [class.fa-sort-desc]="!query.isSortAscending"
+      ></i>
+    </th>
+    <th (click)="sortBy('contactName')">
+      Contact Name
+      <i class="fa" *ngIf="query.sortBy=='contactName'" 
+      [class.fa-sort-asc]="query.isSortAscending"
+      [class.fa-sort-desc]="!query.isSortAscending"
+      ></i>
+    </th>
     <th>Actions</th>
   </thead>
   <tBody>
