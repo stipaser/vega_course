@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using vega.Core.Models;
 using vega.Models;
 
 namespace vega.Core
@@ -9,6 +10,6 @@ namespace vega.Core
         Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);
-        Task<IList<Vehicle>> GetVehicles();
+        Task<IList<Vehicle>> GetVehicles(Filter filter);
     }
 }

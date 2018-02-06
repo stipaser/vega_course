@@ -10,9 +10,8 @@ import { VehicleService } from '../../services/vehicle.service';
 export class VehicleListComponent implements OnInit {
 
   vehicles: Vehicle[];
-  vehiclesAll: Vehicle[];
   makes: any[];
-  filters: any = {};
+  filter: any = {};
 
 
   constructor(private vehicleService: VehicleService) { }
@@ -26,21 +25,18 @@ export class VehicleListComponent implements OnInit {
   }
 
   private initializeVehicles(){
-    this.vehicleService.getVehicles()
+    this.vehicleService.getVehicles(this.filter)
       .subscribe( res => {
-        this.vehiclesAll = res;
         this.vehicles = res;       
       });
   }
 
   onFilterChange() {
-    this.vehicles = this.vehiclesAll;
-    if(this.filters.makeId)
-      this.vehicles = this.vehiclesAll.filter(v => v.make.id == this.filters.makeId);
+    this.initializeVehicles();
   }
 
   resetFilter(){
-    this.filters = {};
+    this.filter = {};
     this.onFilterChange();
   }
 

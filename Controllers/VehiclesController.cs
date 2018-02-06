@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using vega.Core;
+using vega.Core.Models;
 
 namespace vega.Controllers
 {
@@ -98,9 +99,10 @@ namespace vega.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVehicles()
+        public async Task<IActionResult> GetVehicles(FilterResource filterResource)
         {
-            var vehicles = await _vehicleRepository.GetVehicles();
+            var filter = _mapper.Map<FilterResource, Filter>(filterResource);
+            var vehicles = await _vehicleRepository.GetVehicles(filter);
 
             if (vehicles == null)
                 return NotFound();
