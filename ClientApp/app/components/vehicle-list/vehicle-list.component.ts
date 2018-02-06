@@ -8,10 +8,15 @@ import { VehicleService } from '../../services/vehicle.service';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  private readonly PAGE_SIZE = 3;
 
   vehicles: Vehicle[];
   makes: any[];
-  query: any = {isSortAscending: false};
+  query: any = {
+    isSortAscending: false,
+    pageSize: this.PAGE_SIZE,
+    totalItems: 9
+  };
   
   constructor(private vehicleService: VehicleService) { }
 
@@ -31,12 +36,18 @@ export class VehicleListComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.query.page = 1;
     this.initializeVehicles();
   }
 
   resetFilter(){
-    this.query = {};
-    this.onFilterChange();
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE,
+      isSortAscending: false,
+      totalItems: 9
+    };
+    this.initializeVehicles();
   }
 
   sortBy(columnName: string){    
@@ -44,6 +55,11 @@ export class VehicleListComponent implements OnInit {
         this.query.sortBy = columnName;     
      
     this.query.isSortAscending = !this.query.isSortAscending;
+    this.initializeVehicles();
+  }
+
+  onPageChanged(page:number){
+    this.query.page = page;
     this.initializeVehicles();
   }
 }

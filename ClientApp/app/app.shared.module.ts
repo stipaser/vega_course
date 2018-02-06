@@ -17,6 +17,7 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 // services
 import { VehicleService } from './services/vehicle.service';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './components/shared/pagination.component';
 
 // Error
 // import { AppErrorHandler } from './components/app/app.error-handler';
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
         FetchDataComponent,
         HomeComponent,
         VehicleFormComponent,
-        VehicleListComponent
+        VehicleListComponent,
+        PaginationComponent
     ],
     imports: [
         ToastyModule.forRoot(),
