@@ -19,6 +19,7 @@ import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.com
 
 // services
 import { VehicleService } from './services/vehicle.service';
+import { PhotoService } from './services/photo.service';
 
 // Error
 // import { AppErrorHandler } from './components/app/app.error-handler';
@@ -58,6 +59,7 @@ const appRoutes: Routes = [
     ], 
     providers: [
         VehicleService,
+        PhotoService
         //{ provide: ErrorHandler, useClass: AppErrorHandler }                
     ]
 })
