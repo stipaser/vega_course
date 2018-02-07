@@ -13,11 +13,12 @@ import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './components/shared/pagination.component';
+import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 
 // services
 import { VehicleService } from './services/vehicle.service';
-import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
-import { PaginationComponent } from './components/shared/pagination.component';
 
 // Error
 // import { AppErrorHandler } from './components/app/app.error-handler';
@@ -26,8 +27,9 @@ import { PaginationComponent } from './components/shared/pagination.component';
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'vehicles/new', component: VehicleFormComponent },
+    { path: 'vehicles/edit/:id', component: VehicleFormComponent },
     { path: 'vehicles', component: VehicleListComponent },
-    { path: 'vehicles/:id', component: VehicleFormComponent },
+    { path: 'vehicles/:id', component: ViewVehicleComponent },    
     { path: 'home', component: HomeComponent },
     { path: 'counter', component: CounterComponent },
     { path: 'fetch-data', component: FetchDataComponent },
@@ -44,7 +46,8 @@ const appRoutes: Routes = [
         HomeComponent,
         VehicleFormComponent,
         VehicleListComponent,
-        PaginationComponent
+        PaginationComponent,
+        ViewVehicleComponent
     ],
     imports: [
         ToastyModule.forRoot(),

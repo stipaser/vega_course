@@ -29,7 +29,6 @@ namespace vega.Mapping
                             Email = src.ContactEmail,
                             Phone = src.ContactPhone
                         }))
-                // .ForMember(x => x.Model, opt => opt.MapFrom(src => src.Model))
                 .ForMember(x => x.Make, opt => opt.MapFrom(src => src.Model.Make))
                 .ForMember(x => x.VehicleFeatures, opt => opt.MapFrom(src => 
                     src.VehicleFeatures.Select(x => new FeatureResource{Id = x.Feature.Id, Name = x.Feature.Name})));
@@ -42,9 +41,10 @@ namespace vega.Mapping
                 .ForMember(x => x.ContactEmail, opt => opt.MapFrom(src => src.Contact.Email))
                 .ForMember(x => x.ContactPhone, opt => opt.MapFrom(src => src.Contact.Phone))
                 .ForMember(x => x.VehicleFeatures, opt => opt.Ignore())
-                .AfterMap((vr, v) =>{
+                .AfterMap((vr, v) => {
+
                     // Remove unselected features
-                    var removedFeatures = v.VehicleFeatures.Where(x => !vr.Features.Contains(x.FeatureId)); // ???
+                    var removedFeatures = v.VehicleFeatures.Where(x => !vr.Features.Contains(x.FeatureId)); // ??????
                     foreach (var f in removedFeatures)
                         v.VehicleFeatures.Remove(f);
 

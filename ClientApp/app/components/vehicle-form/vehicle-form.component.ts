@@ -36,7 +36,7 @@ export class VehicleFormComponent implements OnInit {
     private toastyService: ToastyService) {
 
       route.params.subscribe (p => {
-        this.vehicle.id = p['id'];
+        this.vehicle.id = +p['id'] || 0;
       });
     }
 
@@ -47,7 +47,7 @@ export class VehicleFormComponent implements OnInit {
     ];
 
     if(this.vehicle.id){
-      sources.push(this.vehicleService.getVehicle(+this.vehicle.id));
+      sources.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
 
     Observable.forkJoin(sources)
@@ -106,7 +106,7 @@ export class VehicleFormComponent implements OnInit {
               showClose: true,
               timeout: 5000
             });
-            this.router.navigate(['/vehicles']);
+            this.router.navigate(['/vehicles/', this.vehicle.id]);
         });
     } else {
       this.vehicleService.createVehicle(this.vehicle)
@@ -118,13 +118,12 @@ export class VehicleFormComponent implements OnInit {
             showClose: true,
             timeout: 5000
           });
-          this.router.navigate(['/vehicles']);
+          this.router.navigate(['/vehicles/', res.id]);
         });
     }
   }
 
-  onDelete(){
-    console.log("Delete");
+  onDelete(){    
     this.vehicleService.deleteVehicle(this.vehicle.id)
       .subscribe(res => {
         this.toastyService.info({
