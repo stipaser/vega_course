@@ -8,7 +8,7 @@ import { OnChanges } from '@angular/core';
 @Component({
 	selector: 'pagination',
     template: `
-    <nav *ngIf="totalItems > pageSize">
+    <nav *ngIf="totalItems >= pageSize">
         <ul class="pagination">
             <li [class.disabled]="currentPage == 1">
                 <a (click)="previous()" aria-label="Previous">
@@ -42,7 +42,7 @@ export class PaginationComponent implements OnChanges {
 		for (var i = 1; i <= pagesCount; i++)
 			this.pages.push(i);
 
-    console.log(this);
+    // console.log(this);
 	}
 
 	changePage(page: number){
@@ -63,7 +63,7 @@ export class PaginationComponent implements OnChanges {
 			return; 
 		
 		this.currentPage++;
-        console.log("next", this);
+        // console.log("next", this);
 		this.pageChanged.emit(this.currentPage);
 	}
 }

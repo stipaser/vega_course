@@ -15,39 +15,47 @@ export class VehicleListComponent implements OnInit {
   query: any = {
     isSortAscending: false,
     pageSize: this.PAGE_SIZE,
-    totalItems: 9
+    page:1    
   };
+  totalItems: number;
+
   
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
-    this.initializeVehicles();    
+    this.populateVehicles();    
     this.vehicleService.getMakes()
       .subscribe(res => {
-        this.makes = res;
+        this.makes = res;        
       });
   }
 
-  private initializeVehicles(){
+  private populateVehicles(){
     this.vehicleService.getVehicles(this.query)
       .subscribe( res => {
-        this.vehicles = res;       
+        this.vehicles = res.items;
+        this.totalItems = res.totalItems;
+        if(this.totalItems < this.PAGE_SIZE){
+          this.query.pageSize = this.totalItems;
+        }else {
+          this.query.pageSize = this.PAGE_SIZE;
+        }
       });
   }
 
   onFilterChange() {
     this.query.page = 1;
-    this.initializeVehicles();
+    this.query.pageSize = this.PAGE_SIZE;
+    this.populateVehicles();
   }
 
   resetFilter(){
     this.query = {
       page: 1,
       pageSize: this.PAGE_SIZE,
-      isSortAscending: false,
-      totalItems: 9
+      isSortAscending: false      
     };
-    this.initializeVehicles();
+    this.populateVehicles();
   }
 
   sortBy(columnName: string){    
@@ -55,11 +63,11 @@ export class VehicleListComponent implements OnInit {
         this.query.sortBy = columnName;     
      
     this.query.isSortAscending = !this.query.isSortAscending;
-    this.initializeVehicles();
+    this.populateVehicles();
   }
 
   onPageChanged(page:number){
     this.query.page = page;
-    this.initializeVehicles();
+    this.populateVehicles();
   }
 }

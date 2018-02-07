@@ -102,14 +102,14 @@ namespace vega.Controllers
         public async Task<IActionResult> GetVehicles(VehicleQueryResource vehicleQueryResource)
         {
             var vehicleQuery = _mapper.Map<VehicleQueryResource, VehicleQuery>(vehicleQueryResource);
-            var vehicles = await _vehicleRepository.GetVehicles(vehicleQuery);
+            var qureyResult = await _vehicleRepository.GetVehicles(vehicleQuery);
 
-            if (vehicles == null)
+            if (qureyResult == null)
                 return NotFound();
 
-            var vehiclesResource = _mapper.Map<IList<Vehicle>, IList<VehicleResource >>(vehicles);
+            var qureyResultResource = _mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(qureyResult);
 
-            return Ok(vehiclesResource);
+            return Ok(qureyResultResource);
         }
     }
 }
