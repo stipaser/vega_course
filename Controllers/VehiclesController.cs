@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using vega.Core;
 using vega.Core.Models;
 
@@ -72,6 +73,7 @@ namespace vega.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle =  await _vehicleRepository.GetVehicle(id, includeRelated: false);

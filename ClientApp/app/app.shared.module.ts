@@ -25,6 +25,8 @@ import { VehicleService } from './services/vehicle.service';
 import { PhotoService } from './services/photo.service';
 import { ProgressService } from './services/progress.service';
 import { BrowserXhrProgress } from './services/progress.service';
+import { Auth } from './services/auth.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 const appRoutes: Routes = [
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     { path: 'vehicles/new', component: VehicleFormComponent },
     { path: 'vehicles/edit/:id', component: VehicleFormComponent },
     { path: 'vehicles', component: VehicleListComponent },
-    { path: 'vehicles/:id', component: ViewVehicleComponent },    
+    { path: 'vehicles/:id', component: ViewVehicleComponent },
+    { path: 'profile', component: ProfileComponent },     
     { path: 'home', component: HomeComponent },
     { path: 'counter', component: CounterComponent },
     { path: 'fetch-data', component: FetchDataComponent },
@@ -50,7 +53,8 @@ const appRoutes: Routes = [
         VehicleFormComponent,
         VehicleListComponent,
         PaginationComponent,
-        ViewVehicleComponent
+        ViewVehicleComponent,
+        ProfileComponent
     ],
     imports: [
         ToastyModule.forRoot(),
@@ -60,6 +64,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes)
     ], 
     providers: [
+        Auth,
         VehicleService,
         PhotoService,
         ProgressService,

@@ -17,6 +17,21 @@
                         <span class='glyphicon glyphicon-home'></span> Home
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="auth.login()" *ngIf="!auth.isAuthenticated()">
+                        <span class='glyphicon glyphicon-user'></span> Log in
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/profile']" *ngIf="auth.isAuthenticated()">
+                        <span class='glyphicon glyphicon-home'></span> Profile
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="auth.logout()" *ngIf="auth.isAuthenticated()">
+                        <span class='glyphicon glyphicon-user'></span> Log out
+                    </a>
+                </li>
                 <li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{exact: true}">
                     <a [routerLink]="['/vehicles']">
                         <span class='glyphicon glyphicon-align-justify'></span> Vehicles
