@@ -66,25 +66,36 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto(){
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
-
+    
     this.progressService.startTracking()
-      .subscribe(progress => {
-        console.log(progress);
-        this.ngZone.run(() => {
-          this.progress.percentage = progress.percentage;
-        });
-      },
-      () => {},
-      () => {
-        console.log("COMPLETE UPLOAD");
-        this.progress.percentage = 0;
+    .subscribe(progress => {
+      console.log(progress);
+      this.ngZone.run(() => {
+        this.progress.percentage = progress.percentage;
       });
-
-    if(nativeElement.files)
-      this.photoService.upload(this.vehicleId, nativeElement.files[0])
+    },
+    () => {},
+    () => {
+      console.log("COMPLETE UPLOAD");
+      this.progress.percentage = 0;
+    });
+    
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var file = nativeElement.files ? nativeElement.files[0] : null;
+    nativeElement.value = '';
+    if(file)
+      this.photoService.upload(this.vehicleId, file)
         .subscribe(res => {
           this.photos.push(res);                  
+        },
+        err => {          
+            this.toastyService.error({
+                title: 'Error',
+                msg: err.text(),
+                theme: 'bootstrap',
+                showClose: true,
+                timeout: 5000
+            });
         });
   }
 
