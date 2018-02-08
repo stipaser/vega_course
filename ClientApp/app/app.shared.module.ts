@@ -1,13 +1,16 @@
 //  @angular
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BrowserXhr } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+
+// ng extensions
 import { ToastyModule } from 'ng2-toasty';
 
 // components
 import { AppComponent } from './components/app/app.component';
+import { AppErrorHandler } from './components/app/app.error-handler';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
@@ -20,10 +23,9 @@ import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.com
 // services
 import { VehicleService } from './services/vehicle.service';
 import { PhotoService } from './services/photo.service';
+import { ProgressService } from './services/progress.service';
+import { BrowserXhrProgress } from './services/progress.service';
 
-// Error
-// import { AppErrorHandler } from './components/app/app.error-handler';
-// import { ErrorHandler } from '@angular/core';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -59,8 +61,10 @@ const appRoutes: Routes = [
     ], 
     providers: [
         VehicleService,
-        PhotoService
-        //{ provide: ErrorHandler, useClass: AppErrorHandler }                
+        PhotoService,
+        ProgressService,
+        { provide: BrowserXhr, useClass: BrowserXhrProgress }, 
+        { provide: ErrorHandler, useClass: AppErrorHandler }                
     ]
 })
 export class AppModuleShared {

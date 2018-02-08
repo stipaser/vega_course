@@ -1,8 +1,9 @@
+import { ProgressService } from './../../services/progress.service';
 import { PhotoService } from './../../services/photo.service';
 import { ToastyService } from 'ng2-toasty';
 import { VehicleService } from './../../services/vehicle.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-view-vehicle',
@@ -14,12 +15,15 @@ export class ViewVehicleComponent implements OnInit {
   vehicleId: number;
   @ViewChild('fileInput') fileInput: ElementRef;
   photos: any[];
-
+  progress = {percentage: 0};
+  
   constructor(private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
     private toastyService: ToastyService,
-    private photoService: PhotoService) {
+    private photoService: PhotoService, 
+    private progressService: ProgressService,
+    private ngZone: NgZone) {
         route.params.subscribe (p => {
           this.vehicleId = p['id'];
           if(isNaN(this.vehicleId) || this.vehicleId <= 0){
@@ -63,11 +67,24 @@ export class ViewVehicleComponent implements OnInit {
 
   uploadPhoto(){
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+
+    this.progressService.startTracking()
+      .subscribe(progress => {
+        console.log(progress);
+        this.ngZone.run(() => {
+          this.progress.percentage = progress.percentage;
+        });
+      },
+      () => {},
+      () => {
+        console.log("COMPLETE UPLOAD");
+        this.progress.percentage = 0;
+      });
+
     if(nativeElement.files)
       this.photoService.upload(this.vehicleId, nativeElement.files[0])
         .subscribe(res => {
-          console.log(res);
-          this.photos.push(res);
+          this.photos.push(res);                  
         });
   }
 
