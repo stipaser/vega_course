@@ -14,6 +14,7 @@
 
 // angular cli
 >ng g c <component_name>
+>ng g c <component_name> --spec false
 >ng g c <component_name> -module app.shared.module
 >ng g s <service_name>
 

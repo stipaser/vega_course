@@ -29,6 +29,8 @@ namespace vega
         {
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSetting"));
 
+            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

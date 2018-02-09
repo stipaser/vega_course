@@ -26,7 +26,8 @@ export class VehicleListComponent implements OnInit {
     this.populateVehicles();    
     this.vehicleService.getMakes()
       .subscribe(res => {
-        this.makes = res;        
+        var makeToFilter: any[] = res;
+        this.makes = makeToFilter.filter(x => x.models.length > 0);        
       });
   }
 
