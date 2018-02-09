@@ -1,8 +1,6 @@
 
 <h2>Vehicles</h2>
-<p>
-  <a class="btn btn-primary vehicle-new" [routerLink]="['/vehicles/new']">Create new</a>
-</p>
+
 <div class="row well">
 <div class="col-md-4">
   <div class="form-group">
@@ -64,3 +62,7 @@
 </table>
 
 <pagination [total-items]="totalItems" [page-size]="query.pageSize" (page-changed)="onPageChanged($event)"></pagination>
+
+<a class="btn btn-primary vehicle-new" [routerLink]="['/vehicles/new']">Create new vehicle</a>
+<a class="btn btn-primary" [routerLink]="['/vehicles/makes/add']">Add Make</a>
+<a class="btn btn-primary" [routerLink]="['/vehicles/models/add']">Add Model</a>

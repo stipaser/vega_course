@@ -52,7 +52,8 @@ export class VehicleFormComponent implements OnInit {
 
     Observable.forkJoin(sources)
       .subscribe(data =>{
-        this.makes = data[0];
+        var makesToFilter: any[] = data[0];
+        this.makes = makesToFilter.filter(x => x.models.length > 0);
         this.features = data[1];
         if(this.vehicle.id)
           this.setVehicle(data[2])
