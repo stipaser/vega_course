@@ -11,26 +11,44 @@ namespace vega.Mapping
         public MappingProfile()
         {
             // Domain to API Resources
-                // CreateMap<Make, MakeResource>();
-                // CreateMap<Model, ModelResource>();
-            CreateMap<Vehicle, VehicleResource>()
+
+            CreateMap<Make, MakeResource>();
+            CreateMap<Model, ModelResource>();
+
+            CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(x => x.Contact, opt => opt.MapFrom(src => 
                     new ContactResource  { Name = src.ContactName, Email = src.ContactEmail, Phone = src.ContactPhone }))
-                  .ForMember(x => x.Features, opt => opt.MapFrom(src => src.VehicleFeatures.Select(x => x.FeatureId)));                
+                  .ForMember(x => x.Features, opt => opt.MapFrom(src => src.VehicleFeatures.Select(x => x.FeatureId)));
+
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(x => x.Contact,
+                    opt => opt.MapFrom(src =>
+                        new ContactResource
+                        {
+                            Name = src.ContactName,
+                            Email = src.ContactEmail,
+                            Phone = src.ContactPhone
+                        }))
+                .ForMember(x => x.Make, opt => opt.MapFrom(src => src.Model.Make))
+                .ForMember(x => x.VehicleFeatures, opt => opt.MapFrom(src => 
+                    src.VehicleFeatures.Select(x => new FeatureResource{Id = x.Feature.Id, Name = x.Feature.Name})));
 
 
             // API Resources to Domain
-            CreateMap<VehicleResource, Vehicle>()
+            CreateMap<ModelResource, Model>();
+
+            CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(x => x.Id, opt => opt.Ignore())
                 .ForMember(x => x.ContactName, opt => opt.MapFrom(src => src.Contact.Name))
                 .ForMember(x => x.ContactEmail, opt => opt.MapFrom(src => src.Contact.Email))
                 .ForMember(x => x.ContactPhone, opt => opt.MapFrom(src => src.Contact.Phone))
                 .ForMember(x => x.VehicleFeatures, opt => opt.Ignore())
-                .AfterMap((vr, v) =>{
+                .AfterMap((vr, v) => {
+
                     // Remove unselected features
-                    var removedFeatures = v.VehicleFeatures.Where(x => !vr.Features.Contains(x.FeatureId));
+                    var removedFeatures = v.VehicleFeatures.Where(x => !vr.Features.Contains(x.FeatureId)); // ??????
                     foreach (var f in removedFeatures)
-                    v.VehicleFeatures.Remove(f);
+                        v.VehicleFeatures.Remove(f);
 
                     // Add new features
                     var addedFeatures = vr.Features.Where(id => !v.VehicleFeatures.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature { FeatureId = id });   

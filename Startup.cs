@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using vega.Persistence;
 using AutoMapper;
+using vega.Core;
+using vega.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using vega.Models;
 

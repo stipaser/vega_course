@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using vega.Core.Models;
 
 namespace vega.Models
 {
@@ -9,7 +11,8 @@ namespace vega.Models
     {
         public Vehicle()
         {
-            this.VehicleFeatures = new Collection<VehicleFeature>();
+            VehicleFeatures = new Collection<VehicleFeature>();
+            Photos = new Collection<Photo>();
         }
         
         public int Id { get; set; }
@@ -26,5 +29,6 @@ namespace vega.Models
         public string ContactPhone { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<VehicleFeature> VehicleFeatures { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }

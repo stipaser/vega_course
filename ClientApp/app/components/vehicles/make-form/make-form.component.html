@@ -1,0 +1,10 @@
+<br>
+<form (ngSubmit)="submitForm()" #makeForm="ngForm">
+  <div class="form-group">
+    <label for="Name">Name</label>
+      <input name="name" type="text" class="form-control" [(ngModel)]="make.name" required #name="ngModel"> 
+      <div *ngIf="name.touched && name.invalid" class="alert alert-danger">Name is required.</div>   
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="makeForm.invalid">Save</button>
+  <a href="#" [routerLink]="['/vehicles']" class="btn btn-danger">Cancel</a> 
+</form>

@@ -4,26 +4,53 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vega.Controllers.Resources;
+using vega.Core;
 using vega.Models;
 using vega.Persistence;
 
 namespace vega.Controllers
 {
+    [Route("/api/vehicles/makes")]
     public class MakesController : Controller
     {
-        private readonly VegaDbContext context;
-        private readonly IMapper mapper;
-        public MakesController(VegaDbContext context, IMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly IMakeRepository _makeRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public MakesController(IMapper mapper, IMakeRepository makeRepository, IUnitOfWork unitOfWork)
         {
-            this.mapper = mapper;
-            this.context = context;
+            _mapper = mapper;
+            _makeRepository = makeRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("api/vehicles/makes")]
+        [HttpGet]
         public async Task<IEnumerable<MakeResource>> GetMakes()
         {
-            var makes = await context.Makes.Include(m => m.Models).ToListAsync();
-            return mapper.Map<List<Make>, List<MakeResource>>(makes);
+            var makes = await _makeRepository.GetMakes();
+            return _mapper.Map<IEnumerable<Make>, IEnumerable<MakeResource>>(makes);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMake(int id)
+        {
+            var make = await _makeRepository.GetMakeById(id);
+
+            if (make == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<Make, MakeResource>(make));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMake([FromBody] MakeResource makeResource)
+        {
+            var make = _mapper.Map<MakeResource, Make>(makeResource);
+            _makeRepository.Add(make);
+            await _unitOfWork.CompleteAsync();
+            
+            return Ok(_mapper.Map<Make, MakeResource>(make));
+        }
+
     }
 }
