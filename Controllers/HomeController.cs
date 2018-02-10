@@ -11,6 +11,7 @@ namespace vega.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "My site";
             return View();
         }
 

@@ -52,16 +52,16 @@ export class VehicleFormComponent implements OnInit {
 
     Observable.forkJoin(sources)
       .subscribe(data =>{
-        var makesToFilter: any[] = data[0];
+        var makesToFilter = data[0] as any[];
         this.makes = makesToFilter.filter(x => x.models.length > 0);
-        this.features = data[1];
+        this.features = data[1] as any[];
         if(this.vehicle.id)
-          this.setVehicle(data[2])
+          this.setVehicle(data[2] as Vehicle);
           this.populateModel();
       }, err => {
-        if(err.status == 404)
-          this.router.navigate(['/home'])
-      });   
+            if(err.status == 404)
+                this.router.navigate(['/home']);
+        });   
    
   }
 

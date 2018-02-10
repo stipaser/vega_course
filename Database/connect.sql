@@ -1,2 +1,2 @@
 
-SELECT  * FROM dbo.Vehicles;
+SELECT  * FROM dbo.VehicleFeatures;

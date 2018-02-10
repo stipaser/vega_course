@@ -60,7 +60,7 @@ namespace vega.Controllers
 
             if (vehicle == null)
                 return NotFound();
-
+            
             _mapper.Map<SaveVehicleResource, Vehicle>(saveVehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
