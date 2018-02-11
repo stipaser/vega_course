@@ -1,4 +1,3 @@
-import { ModelService } from './services/model.service';
 //  @angular
 import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,6 +20,7 @@ import { PaginationComponent } from './components/shared/pagination.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { MakeFormComponent } from './components/vehicles/make-form/make-form.component';
 import { ModelFormComponent } from './components/vehicles/model-form/model-form.component';
+import { FeatureListComponent } from './components/vehicles/feature-list/feature-list.component';
 
 // services
 import { VehicleService } from './services/vehicle.service';
@@ -28,6 +28,9 @@ import { PhotoService } from './services/photo.service';
 import { ProgressService } from './services/progress.service';
 import { BrowserXhrProgress } from './services/progress.service';
 import { MakeService } from './services/make.service';
+import { ModelService } from './services/model.service';
+import { FeatureService } from './services/feature.service';
+import { FeatureFormComponent } from './components/vehicles/feature-form/feature-form.component';
 
 
 const appRoutes: Routes = [
@@ -37,7 +40,9 @@ const appRoutes: Routes = [
     { path: 'vehicles', component: VehicleListComponent },
     { path: 'vehicles/:id', component: ViewVehicleComponent },
     { path: 'vehicles/makes/add', component: MakeFormComponent }, 
-    { path: 'vehicles/models/add', component: ModelFormComponent },    
+    { path: 'vehicles/models/add', component: ModelFormComponent },
+    { path: 'features', component: FeatureListComponent },
+    { path: 'features/edit/:id', component: FeatureFormComponent },   
     { path: 'home', component: HomeComponent },
     { path: 'fetch-data', component: FetchDataComponent },
     { path: '**', redirectTo: 'home' }
@@ -55,7 +60,9 @@ const appRoutes: Routes = [
         PaginationComponent,
         ViewVehicleComponent,
         MakeFormComponent,
-        ModelFormComponent
+        ModelFormComponent,
+        FeatureListComponent,
+        FeatureFormComponent
     ],
     imports: [
         ToastyModule.forRoot(),
@@ -70,6 +77,7 @@ const appRoutes: Routes = [
         ProgressService,
         MakeService,
         ModelService,
+        FeatureService,
         { provide: BrowserXhr, useClass: BrowserXhrProgress }, 
         // { provide: ErrorHandler, useClass: AppErrorHandler }                
     ]

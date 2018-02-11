@@ -36,6 +36,7 @@ namespace vega.Mapping
 
             // API Resources to Domain
             CreateMap<ModelResource, Model>();
+            CreateMap<FeatureResource, Feature>();
 
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(x => x.Id, opt => opt.Ignore())
@@ -46,7 +47,7 @@ namespace vega.Mapping
                 .AfterMap((vr, v) => {
 
                     // Remove unselected features
-                    var removedFeatures = v.VehicleFeatures.Where(vf => !vr.Features.Contains(vf.FeatureId)).ToList(); // ??????
+                    var removedFeatures = v.VehicleFeatures.Where(vf => !vr.Features.Contains(vf.FeatureId)).ToList(); 
                     foreach (var feature in removedFeatures)
                         v.VehicleFeatures.Remove(feature);
 

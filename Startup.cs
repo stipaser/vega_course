@@ -29,6 +29,7 @@ namespace vega
         {
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSetting"));
 
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
@@ -37,8 +38,8 @@ namespace vega
 
             services.AddAutoMapper();
 
-            // services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Mac")));
+            services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+           // services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Mac")));
 
             services.AddMvc();
         }

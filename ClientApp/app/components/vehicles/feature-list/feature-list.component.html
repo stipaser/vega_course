@@ -1,0 +1,14 @@
+
+<table class="table">
+  <thead>
+    <th>Id</th>
+    <th>Name</th>
+    
+  </thead>
+  <tBody>
+    <tr *ngFor="let feature of features">
+      <td>{{ feature.id }}</td>
+      <td><a [routerLink]="['/features/edit/', feature.id]">{{ feature.name }}</a></td>
+     </tr>
+  </tBody>
+</table>
