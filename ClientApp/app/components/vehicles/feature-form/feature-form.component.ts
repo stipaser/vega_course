@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FeatureFormComponent implements OnInit {
 
-  feature: Feature = { id: 0, name: 'gsgsdf'};
+  feature: Feature = { id: 0, name: ''};
 
   constructor(private featureService: FeatureService,
     private route: ActivatedRoute,
