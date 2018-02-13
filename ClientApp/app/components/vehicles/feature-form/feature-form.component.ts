@@ -29,7 +29,6 @@ export class FeatureFormComponent implements OnInit {
   }
 
   submit(){
-    console.log('afasdf')
     if(this.feature.id != 0){
       this.featureService.updateFeature(this.feature)
         .subscribe(res => {
