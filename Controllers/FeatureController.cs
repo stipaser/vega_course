@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vega.Controllers.Resources;
@@ -11,6 +12,7 @@ using vega.Persistence;
 namespace vega.Controllers
 {
     [Route("/api/vehicles/features")]
+    [Authorize]
     public class FeatureController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

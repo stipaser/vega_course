@@ -42,6 +42,15 @@ namespace vega
            // services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Mac")));
 
             services.AddMvc();
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:4965";
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "vega";
+                    
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +70,8 @@ namespace vega
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
