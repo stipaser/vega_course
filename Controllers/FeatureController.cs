@@ -29,6 +29,8 @@ namespace vega.Controllers
         
         public async Task<IEnumerable<FeatureResource>> GetFeatures()
         {
+
+            var claims = User.Claims;
             var features = await _featureRepository.GetFeatures();
                 
             return _mapper.Map<IEnumerable<Feature>, IEnumerable<FeatureResource>>(features);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using vega.Persistence;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using vega.Core;
 using vega.Core.Models;
 
@@ -43,14 +46,36 @@ namespace vega
 
             services.AddMvc();
 
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:4965";
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
-                    options.ApiName = "vega";
-                    
+
+                    options.ClientId = "mvc";
+                    options.ResponseType = "id_token token";
+                    options.SaveTokens = true;
                 });
+
+
+            //services.AddAuthentication("Bearer")
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.Authority = "http://localhost:5000";
+            //        options.RequireHttpsMetadata = false;
+            //        options.ApiName = "vega";
+                    
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +95,10 @@ namespace vega
             }
 
             app.UseStaticFiles();
+
+            // app.UseCookieAuthentication();
+
+            // app.UseOpenIdConnectAuthentication();
 
             app.UseAuthentication();
 
