@@ -62,7 +62,7 @@ namespace vega
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
 
-                    options.ClientId = "mvc";
+                    options.ClientId = "vega_mvc";
                     options.ResponseType = "id_token token";
                     options.SaveTokens = true;
                 });
@@ -95,11 +95,7 @@ namespace vega
             }
 
             app.UseStaticFiles();
-
-            // app.UseCookieAuthentication();
-
-            // app.UseOpenIdConnectAuthentication();
-
+            
             app.UseAuthentication();
 
             app.UseMvc(routes =>
